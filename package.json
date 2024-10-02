@@ -1,13 +1,16 @@
 {
   "name": "misercalc",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "homepage": "https://warenek.github.io/miser/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
@@ -19,6 +22,7 @@
     "vite": "^5.4.1"
   },
   "dependencies": {
+    "gh-pages": "^6.1.1",
     "vite-plugin-pwa": "^0.20.5"
   }
 }
