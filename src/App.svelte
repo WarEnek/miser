@@ -1,23 +1,28 @@
 <script lang="ts">
-  let weight1: number = undefined;
-  let price1: number = undefined;
-  let weight2: number = undefined;
-  let price2: number = undefined;
+  let weight1: number | null = null;
+  let price1: number | null = null;
+  let weight2: number | null = null;
+  let price2: number | null = null;
 
   let cheaper: number | null = null;
 
-  // Calculate price per gram for each product
-  const pricePerGram1 = (): number | null => (weight1 > 0 ? price1 / weight1 : null);
-  const pricePerGram2 = (): number | null => (weight2 > 0 ? price2 / weight2 : null);
-
-  // Function to compare prices
-  const comparePrices = (): void => {
-    const p1 = pricePerGram1();
-    const p2 = pricePerGram2();
-    if (p1 !== null && p2 !== null) {
-      cheaper = p1 < p2 ? 1 : p2 < p1 ? 2 : null;
+  const calculatePricePerGram = (weight: number | null, price: number | null): number | null => {
+    if (weight && weight > 0 && price !== null && price >= 0) {
+      return price / weight;
     }
+    return null;
   };
+
+  $: pricePerGram1 = calculatePricePerGram(weight1, price1);
+  $: pricePerGram2 = calculatePricePerGram(weight2, price2);
+
+  $: {
+      if (pricePerGram1 !== null && pricePerGram2 !== null) {
+        cheaper = pricePerGram1 < pricePerGram2 ? 1 : pricePerGram2 < pricePerGram1 ? 2 : null;
+      } else {
+        cheaper = null;
+      }
+    }
 </script>
 
 <main>
@@ -26,26 +31,26 @@
   <div class="product" class:cheaper={cheaper === 1}>
     <h2>Product 1</h2>
     <label>Weight (g):</label>
-    <input type="number" bind:value={weight1} on:input={comparePrices} placeholder="0" />
+    <input type="number" bind:value={weight1} placeholder="0" />
     
     <label>Price:</label>
-    <input type="number" bind:value={price1} on:input={comparePrices} placeholder="0" />
+    <input type="number" bind:value={price1} placeholder="0" />
     
-    {#if pricePerGram1() !== null}
-      <p>Price per gram: {pricePerGram1().toFixed(2)}</p>
+    {#if pricePerGram1 !== null}
+      <p>Price per gram: {pricePerGram1.toFixed(2)}</p>
     {/if}
   </div>
 
   <div class="product" class:cheaper={cheaper === 2}>
     <h2>Product 2</h2>
     <label>Weight (g):</label>
-    <input type="number" bind:value={weight2} on:input={comparePrices} placeholder="0" />
+    <input type="number" bind:value={weight2} placeholder="0" />
     
     <label>Price:</label>
-    <input type="number" bind:value={price2} on:input={comparePrices} placeholder="0" />
+    <input type="number" bind:value={price2} placeholder="0" />
     
-    {#if pricePerGram2() !== null}
-      <p>Price per gram: {pricePerGram2().toFixed(2)}</p>
+    {#if pricePerGram2 !== null}
+      <p>Price per gram: {pricePerGram2.toFixed(2)}</p>
     {/if}
   </div>
 
@@ -129,7 +134,6 @@
 
   /* Highlight cheaper product */
   .cheaper {
-    color: #000;
     border: 2px solid #34a853;
     animation: glow 1.5s infinite alternate;
   }
