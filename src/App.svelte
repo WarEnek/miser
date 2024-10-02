@@ -1,8 +1,8 @@
 <script lang="ts">
-  let weight1: number = 0;
-  let price1: number = 0;
-  let weight2: number = 0;
-  let price2: number = 0;
+  let weight1: number = undefined;
+  let price1: number = undefined;
+  let weight2: number = undefined;
+  let price2: number = undefined;
 
   let cheaper: number | null = null;
 
@@ -26,10 +26,10 @@
   <div class="product" class:cheaper={cheaper === 1}>
     <h2>Product 1</h2>
     <label>Weight (g):</label>
-    <input type="number" bind:value={weight1} on:input={comparePrices} placeholder="Enter weight" />
+    <input type="number" bind:value={weight1} on:input={comparePrices} placeholder="0" />
     
     <label>Price:</label>
-    <input type="number" bind:value={price1} on:input={comparePrices} placeholder="Enter price" />
+    <input type="number" bind:value={price1} on:input={comparePrices} placeholder="0" />
     
     {#if pricePerGram1() !== null}
       <p>Price per gram: {pricePerGram1().toFixed(2)}</p>
@@ -39,10 +39,10 @@
   <div class="product" class:cheaper={cheaper === 2}>
     <h2>Product 2</h2>
     <label>Weight (g):</label>
-    <input type="number" bind:value={weight2} on:input={comparePrices} placeholder="Enter weight" />
+    <input type="number" bind:value={weight2} on:input={comparePrices} placeholder="0" />
     
     <label>Price:</label>
-    <input type="number" bind:value={price2} on:input={comparePrices} placeholder="Enter price" />
+    <input type="number" bind:value={price2} on:input={comparePrices} placeholder="0" />
     
     {#if pricePerGram2() !== null}
       <p>Price per gram: {pricePerGram2().toFixed(2)}</p>
