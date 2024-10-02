@@ -125,7 +125,6 @@
   p {
     margin-top: 1rem;
     font-size: 1rem;
-    color: #fff;
   }
 
   /* Highlight cheaper product */
